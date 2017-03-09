@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgRedux } from '@angular-redux/store';
+import { NgRedux, select } from '@angular-redux/store';
 
 import { AppActions } from './app.actions';
 
@@ -10,8 +10,10 @@ import { AppActions } from './app.actions';
 })
 export class AppComponent {
   title = 'Welcome to the Zoo';
+  @select() readonly elephants$;
 
   constructor(ngRedux: NgRedux<any>, actions: AppActions) {
     ngRedux.dispatch(actions.loadData());
+    console.log('WAT', ngRedux, NgRedux.instance);
   }
 }

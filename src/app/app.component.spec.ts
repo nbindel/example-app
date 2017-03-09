@@ -12,7 +12,10 @@ import { AppActions } from './app.actions';
 // should be.
 const mockRedux = {
   dispatch: function() {},
+  select: () => ({ items: [], loading: false, error: null }),
+  debug: 'I AM MOCK',
 };
+NgRedux.instance = mockRedux;
 const mockDevTools = {};
 
 describe('AppComponent', () => {
