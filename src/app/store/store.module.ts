@@ -17,6 +17,8 @@ import { IAppState } from './root.types';
 import { rootReducer } from './root.reducer';
 import { RootEpics } from './root.epics';
 
+import persistState from 'redux-localstorage';
+
 @NgModule({
   imports: [NgReduxModule, NgReduxRouterModule],
   providers: [RootEpics],
@@ -28,6 +30,11 @@ export class StoreModule {
     ngReduxRouter: NgReduxRouter,
     rootEpics: RootEpics,
   ) {
+    const persister = persistState(['lions', 'elephants'], { key: 'foo' });
+    const enhancers = devTools.isEnabled() ? 
+      [ persister, devTools.enhancer() ] : 
+      [ persister ];
+
     // Tell Redux about our reducers and epics. If the Redux DevTools
     // chrome extension is available in the browser, tell Redux about
     // it too.
@@ -35,7 +42,7 @@ export class StoreModule {
       rootReducer,
       {},
       [ createLogger(), ...rootEpics.createEpics() ],
-      devTools.isEnabled() ? [ devTools.enhancer() ] : []);
+      enhancers);
 
     // Enable syncing of Angular router state with our Redux store.
     ngReduxRouter.initialize();
