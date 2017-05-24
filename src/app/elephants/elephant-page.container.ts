@@ -5,6 +5,7 @@ import { NgRedux } from '@angular-redux/store';
 import { AnimalActions } from '../animals/animal.actions';
 import { ANIMAL_TYPES } from '../animals/animal.types';
 import { IAppState } from '../store/root.types';
+import { AnimalLoadStarted } from '../animals/animal.reducer';
 
 /**
  * In Redux terminology, a 'container' is a component that knows about the store.
@@ -32,6 +33,7 @@ export class ElephantPageComponent {
   @select(['elephants', 'error']) readonly error$: Observable<any>;
 
   constructor(actions: AnimalActions) {
-    actions.loadAnimals(ANIMAL_TYPES.ELEPHANT);
+    //actions.loadAnimals(ANIMAL_TYPES.ELEPHANT);
+    new AnimalLoadStarted(ANIMAL_TYPES.ELEPHANT).dispatch();
   }
 }

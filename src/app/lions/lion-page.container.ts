@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AnimalActions } from '../animals/animal.actions';
 import { ANIMAL_TYPES, IAnimal } from '../animals/animal.types';
 import { IAppState } from '../store/root.types';
+import { AnimalLoadStarted } from '../animals/animal.reducer';
 
 /**
  * In Redux terminology, a 'container' is a component that knows about the store.
@@ -32,6 +33,7 @@ export class LionPageComponent {
   @select(['lions', 'error']) readonly error$: Observable<any>;
 
   constructor(actions: AnimalActions) {
-    actions.loadAnimals(ANIMAL_TYPES.LION);
+    //actions.loadAnimals(ANIMAL_TYPES.LION);
+    new AnimalLoadStarted(ANIMAL_TYPES.LION).dispatch();
   }
 }
