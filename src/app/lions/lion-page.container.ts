@@ -34,6 +34,6 @@ export class LionPageComponent {
 
   constructor(actions: AnimalActions) {
     //actions.loadAnimals(ANIMAL_TYPES.LION);
-    new AnimalLoadStarted(ANIMAL_TYPES.LION).dispatch();
+    new AnimalLoadStarted(ANIMAL_TYPES.LION).doDispatch();
   }
 }

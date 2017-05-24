@@ -34,13 +34,13 @@ export class AnimalEpics {
           //this.actions.loadSucceeded(animalType, data);
           let action = new AnimalLoadSucceeded(animalType, data);
 
-          return action.dispatch();
+          return action.doDispatch();
         })
         .catch(response => { 
           //return of(this.actions.loadFailed(animalType, { status: '' + response.status, }));
           let action = new AnimalLoadFailed(animalType, { status: '' + response.status, });
 
-          return of(action.dispatch());
+          return of(action.doDispatch());
         })
       );
   }

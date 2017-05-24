@@ -96,9 +96,9 @@ export class AnimalLoadFailed extends BaseAnimalAction
 export function createAnimalReducer(animalType: AnimalType) {
   //return function NgRedux.actionRestorerReducer;
     return function animalReducer(state: IAnimalList = INITIAL_STATE, action: any): IAnimalList {
-//      if (!action.meta || action.meta.animalType !== animalType) {
-//        return state;
-//      }
+      // if (!action.payload || action.payload.AnimalType !== animalType) {
+      //   return state;
+      // }
 
       state = ReduxActionRestorer.reducer(state, action);
 

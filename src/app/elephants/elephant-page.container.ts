@@ -34,6 +34,6 @@ export class ElephantPageComponent {
 
   constructor(actions: AnimalActions) {
     //actions.loadAnimals(ANIMAL_TYPES.ELEPHANT);
-    new AnimalLoadStarted(ANIMAL_TYPES.ELEPHANT).dispatch();
+    new AnimalLoadStarted(ANIMAL_TYPES.ELEPHANT).doDispatch();
   }
 }
