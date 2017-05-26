@@ -7,15 +7,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { AnimalType, ANIMAL_TYPES, IAnimalList } from '../animals/animal.types';
-import { AnimalActions } from '../animals/animal.actions';
 import { AnimalService } from './animal.service';
-import { Actions, AnimalLoadSucceeded, AnimalLoadFailed } from './animal.reducer';
+import { Actions, AnimalLoadSucceeded, AnimalLoadFailed } from './animal.actions';
 
 @Injectable()
 export class AnimalEpics {
   constructor(
     private service: AnimalService,
-    private actions: AnimalActions,
   ) {}
 
   public createEpic(animalType: AnimalType) {
@@ -41,15 +39,4 @@ export class AnimalEpics {
         })
       );
   }
-
-  // private createLoadAnimalEpic(animalType) {
-  //   return action$ => action$
-  //     .ofType(AnimalActions.LOAD_STARTED)
-  //     .filter(({ meta }) => meta.animalType === animalType)
-  //     .switchMap(a => this.service.getAll(animalType)
-  //       .map(data => this.actions.loadSucceeded(animalType, data))
-  //       .catch(response => of(this.actions.loadFailed(animalType, {
-  //         status: '' + response.status,
-  //       }))));
-  // }
 }

@@ -1,34 +1,83 @@
 import { Injectable } from '@angular/core';
-import { dispatch } from '@angular-redux/store';
+import { NgRedux, dispatch, ReduxAction, BaseReduxAction } from '@angular-redux/store';
 import { Action } from 'redux';
+import { IAnimalList, IAnimal } from './animal.types';
 
-@Injectable()
-export class AnimalActions {
-  static readonly LOAD_STARTED = 'LOAD_STARTED';
-  static readonly LOAD_SUCCEEDED = 'LOAD_SUCCEEDED';
-  static readonly LOAD_FAILED = 'LOAD_FAILED';
+type AnimalType = string;
 
-  @dispatch()
-  loadAnimals(animalType) {
-    return {
-      type: AnimalActions.LOAD_STARTED,
-      meta: { animalType },
-    };
+export class Actions 
+{
+  public static readonly ANIMAL_LOAD_STARTED = "AnimalLoadStarted";
+  public static readonly ANIMAL_LOAD_SUCCEEDED = "AnimalLoadSucceeded";
+  public static readonly ANIMAL_LOAD_FAILED = "AnimalLoadFailed";
+}
+
+abstract class BaseAnimalAction extends BaseReduxAction<IAnimalList>
+{
+  public AnimalType : AnimalType;
+
+  constructor(actionName: string, animalType: AnimalType) {
+    super(actionName);
+
+    this.AnimalType = animalType;
+  } 
+}
+
+@ReduxAction()
+export class AnimalLoadStarted extends BaseAnimalAction
+{
+  constructor(animalType: AnimalType) {
+    super(Actions.ANIMAL_LOAD_STARTED, animalType);
   }
 
-  loadSucceeded(animalType, payload) {
+  execute(state: IAnimalList) : IAnimalList
+  {
     return {
-      type: AnimalActions.LOAD_SUCCEEDED,
-      meta: { animalType },
-      payload,
-    };
+          items: [],
+          loading: true,
+          error: null,
+        };
+  }
+}
+
+@ReduxAction()
+export class AnimalLoadSucceeded extends BaseAnimalAction
+{
+  private animals: any[];
+
+  constructor(animalType: AnimalType, animals: IAnimal[]) {
+    super(Actions.ANIMAL_LOAD_SUCCEEDED, animalType);
+
+    this.animals = animals;
+  }  
+
+  execute(state: IAnimalList) : IAnimalList
+  {
+    return {
+          items: this.animals,
+          loading: false,
+          error: null
+        };
+  }
+}
+
+@ReduxAction()
+export class AnimalLoadFailed extends BaseAnimalAction
+{
+  private error: any;
+
+  constructor(animalType: AnimalType, error: any) {
+    super(Actions.ANIMAL_LOAD_FAILED, animalType);
+
+    this.error = error;
   }
 
-  loadFailed(animalType, error) {
+  execute(state: IAnimalList) : IAnimalList
+  {
     return {
-      type: AnimalActions.LOAD_FAILED,
-      meta: { animalType },
-      error,
-    };
+          items: [],
+          loading: false,
+          error: this.error
+        };
   }
 }
