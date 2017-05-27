@@ -1,19 +1,16 @@
-import { Injectable } from '@angular/core';
-import { NgRedux, dispatch, ReduxAction, BaseReduxAction } from '@angular-redux/store';
+import { dispatch, ReduxAction, BaseReduxAction } from '@angular-redux/store';
 import { Action } from 'redux';
 import { IAnimalList, IAnimal } from './animal.types';
 
 type AnimalType = string;
 
-export class Actions 
-{
+export class Actions {
   public static readonly ANIMAL_LOAD_STARTED = "AnimalLoadStarted";
   public static readonly ANIMAL_LOAD_SUCCEEDED = "AnimalLoadSucceeded";
   public static readonly ANIMAL_LOAD_FAILED = "AnimalLoadFailed";
 }
 
-abstract class BaseAnimalAction extends BaseReduxAction<IAnimalList>
-{
+abstract class BaseAnimalAction extends BaseReduxAction<IAnimalList> {
   public AnimalType : AnimalType;
 
   constructor(actionName: string, animalType: AnimalType) {
@@ -24,14 +21,12 @@ abstract class BaseAnimalAction extends BaseReduxAction<IAnimalList>
 }
 
 @ReduxAction()
-export class AnimalLoadStarted extends BaseAnimalAction
-{
+export class AnimalLoadStarted extends BaseAnimalAction {
   constructor(animalType: AnimalType) {
     super(Actions.ANIMAL_LOAD_STARTED, animalType);
   }
 
-  execute(state: IAnimalList) : IAnimalList
-  {
+  execute(state: IAnimalList) : IAnimalList {
     return {
           items: [],
           loading: true,
@@ -41,9 +36,8 @@ export class AnimalLoadStarted extends BaseAnimalAction
 }
 
 @ReduxAction()
-export class AnimalLoadSucceeded extends BaseAnimalAction
-{
-  private animals: any[];
+export class AnimalLoadSucceeded extends BaseAnimalAction {
+  private animals: IAnimal[];
 
   constructor(animalType: AnimalType, animals: IAnimal[]) {
     super(Actions.ANIMAL_LOAD_SUCCEEDED, animalType);
@@ -51,8 +45,7 @@ export class AnimalLoadSucceeded extends BaseAnimalAction
     this.animals = animals;
   }  
 
-  execute(state: IAnimalList) : IAnimalList
-  {
+  execute(state: IAnimalList) : IAnimalList {
     return {
           items: this.animals,
           loading: false,
@@ -62,8 +55,7 @@ export class AnimalLoadSucceeded extends BaseAnimalAction
 }
 
 @ReduxAction()
-export class AnimalLoadFailed extends BaseAnimalAction
-{
+export class AnimalLoadFailed extends BaseAnimalAction {
   private error: any;
 
   constructor(animalType: AnimalType, error: any) {
@@ -72,8 +64,7 @@ export class AnimalLoadFailed extends BaseAnimalAction
     this.error = error;
   }
 
-  execute(state: IAnimalList) : IAnimalList
-  {
+  execute(state: IAnimalList) : IAnimalList {
     return {
           items: [],
           loading: false,
